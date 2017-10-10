@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Todo.Dal;
 using Microsoft.EntityFrameworkCore;
 using Todo.Bll.Fcd;
+using Todo.Bll.Services;
 using Todo.Common.Interfaces.Facades;
+using Todo.Common.Interfaces.Identity;
 using Todo.Common.Interfaces.Repositories;
 using Todo.Dal.Repositories;
 
@@ -28,6 +27,8 @@ namespace Todo.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TodoContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<TodoContext>().AddDefaultTokenProviders();
+
             RegisterMyServices(services);
             services.AddMvc();
         }
@@ -44,7 +45,7 @@ namespace Todo.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -60,6 +61,7 @@ namespace Todo.Web
             services.AddScoped<IBaseRepository, BaseRepository>();
             services.AddScoped<ITodoFacade, TodoFacade>();
             services.AddScoped<ITodoRepository, TodoRepository>();
+            services.AddTransient<IMessageService, FileMessageService>();
         }
     }
 }
