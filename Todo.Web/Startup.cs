@@ -27,8 +27,7 @@ namespace Todo.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TodoContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<TodoContext>().AddDefaultTokenProviders();
-
+            ConfigureIdentity(services);
             RegisterMyServices(services);
             services.AddMvc();
         }
@@ -62,6 +61,20 @@ namespace Todo.Web
             services.AddScoped<ITodoFacade, TodoFacade>();
             services.AddScoped<ITodoRepository, TodoRepository>();
             services.AddTransient<IMessageService, FileMessageService>();
+        }
+
+        private void ConfigureIdentity(IServiceCollection services)
+        {
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<TodoContext>().AddDefaultTokenProviders();
+            services.Configure<IdentityOptions>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 6;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+                opt.SignIn.RequireConfirmedEmail = true;
+            });
         }
     }
 }

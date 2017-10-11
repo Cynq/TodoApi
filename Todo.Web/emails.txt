@@ -1,0 +1,4 @@
+To: cynek1988@gmail.com
+Subject: Verify your email
+Message: Click <a href="http://localhost:11325/Account/VerifyEmail/9e312cd3-c81e-464c-b4fa-88dec464002b?token=CfDJ8Bzf%2B9%2FtcntJpo2GCtg3k61T5O3NDhJsbhJHYTyTQhBNWiEuBNza4Tkq1hqvz4rUS5ErKuUhLdy1%2B04gqt056HoJrAC3ManRtHmg8KFADLFFTjBxCTB6CshmoW2nJLrb0LFDidfCEmxzm3nkcbHPOyUSq7tvAfWztarN5UX0S9llhZA1rXuM4g93xsXL1ycWj5tGvk3giK%2B9q1C0pBIqbQ6VrX7kDNYLfzvBN6bs4Jt1vhZXz7wr1dwLBlCsbTOl7g%3D%3D">here</a> to verify your email
+

@@ -8,9 +8,9 @@ namespace Todo.Bll.Fcd
 {
     public class TodoFacade : BaseFacade, ITodoFacade
     {
-        public ITodoRepository Repository { get; set; }
+        public new ITodoRepository Repository { get; }
 
-        public TodoFacade(ITodoRepository repository)
+        public TodoFacade(ITodoRepository repository) : base(repository)
         {
             Repository = repository;
         }
