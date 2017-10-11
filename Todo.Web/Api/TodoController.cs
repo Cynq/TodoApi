@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Todo.Dal;
+﻿using Microsoft.AspNetCore.Mvc;
 using Todo.Common.Models;
 using System.Collections.Generic;
-using Todo.Common.Interfaces.Facades;
+using Todo.Bll.Interfaces.Facades;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,9 +10,9 @@ namespace Todo.Web.Api
     [Route("api/[controller]")]
     public class TodoController : BaseApiController
     {
-        public ITodoFacade Facade { get; set; }
+        public new ITodoFacade Facade { get; set; }
 
-        public TodoController(ITodoFacade facade)
+        public TodoController(ITodoFacade facade) : base(facade)
         {
             Facade = facade;
         }

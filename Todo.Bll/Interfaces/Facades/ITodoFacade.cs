@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Todo.Common.Interfaces.Repositories;
 using Todo.Common.Models;
 
-namespace Todo.Common.Interfaces.Facades
+namespace Todo.Bll.Interfaces.Facades
 {
     public interface ITodoFacade : IBaseFacade
     {

@@ -1,5 +1,5 @@
-﻿using Todo.Common.Interfaces.Facades;
-using Todo.Common.Interfaces.Repositories;
+﻿using Todo.Bll.Interfaces.Facades;
+using Todo.Dal.Interfaces;
 
 namespace Todo.Bll.Fcd
 {

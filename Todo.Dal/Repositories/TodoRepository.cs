@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Todo.Common.Interfaces.Repositories;
 using Todo.Common.Models;
+using Todo.Dal.Interfaces;
 
 namespace Todo.Dal.Repositories
 {

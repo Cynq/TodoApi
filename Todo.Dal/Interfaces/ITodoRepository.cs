@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Todo.Common.Models;
 
-namespace Todo.Common.Interfaces.Repositories
+namespace Todo.Dal.Interfaces
 {
     public interface ITodoRepository : IBaseRepository
     {

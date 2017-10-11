@@ -1,4 +1,4 @@
-﻿namespace Todo.Common.Interfaces.Facades
+﻿namespace Todo.Bll.Interfaces.Facades
 {
     public interface IBaseFacade
     {

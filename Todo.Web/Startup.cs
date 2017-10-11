@@ -6,10 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Todo.Dal;
 using Microsoft.EntityFrameworkCore;
 using Todo.Bll.Fcd;
+using Todo.Bll.Interfaces.Facades;
+using Todo.Bll.Interfaces.Identity;
 using Todo.Bll.Services;
-using Todo.Common.Interfaces.Facades;
-using Todo.Common.Interfaces.Identity;
-using Todo.Common.Interfaces.Repositories;
+using Todo.Dal.Interfaces;
 using Todo.Dal.Repositories;
 
 namespace Todo.Web

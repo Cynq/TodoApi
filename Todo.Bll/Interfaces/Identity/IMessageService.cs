@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Todo.Common.Interfaces.Identity
+namespace Todo.Bll.Interfaces.Identity
 {
     public interface IMessageService
     {
