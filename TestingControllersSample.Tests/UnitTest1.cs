@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace Todo.Bll.Tests
+namespace TestingControllersSample.Tests
 {
     public class UnitTest1
     {

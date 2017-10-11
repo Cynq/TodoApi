@@ -21,6 +21,7 @@ namespace Todo.Web.Controllers
         {
             return View();
         }
+
         public IActionResult Register()
         {
             return View();
