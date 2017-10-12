@@ -32,7 +32,7 @@ namespace Todo.Web.Controllers
         {
             if (model.Password != model.PasswordConfirmation)
             {
-                ModelState.AddModelError(string.Empty, "Password don't match");
+                ModelState.AddModelError("PasswordDontMatch", "Password don't match");
                 return View();
             }
 

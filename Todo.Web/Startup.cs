@@ -61,6 +61,8 @@ namespace Todo.Web
             services.AddScoped<ITodoFacade, TodoFacade>();
             services.AddScoped<ITodoRepository, TodoRepository>();
             services.AddTransient<IMessageService, FileMessageService>();
+            services.AddTransient<IAccountFacade, AccountFacade>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
         }
 
         private void ConfigureIdentity(IServiceCollection services)
