@@ -5,9 +5,9 @@ namespace Todo.Web.Api
 {
     public class BaseApiController : Controller
     {
-        public IBaseFacade Facade { get; }
+        protected IBaseFacade Facade { get; }
 
-        public BaseApiController(IBaseFacade facade)
+        protected BaseApiController(IBaseFacade facade)
         {
             Facade = facade;
         }

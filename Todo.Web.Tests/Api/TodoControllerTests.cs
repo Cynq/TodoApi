@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
@@ -156,6 +158,24 @@ namespace Todo.Web.Tests.Api
             // Assert
             Assert.IsType<OkResult>(result);
             _mockFacade.VerifyAll();
+        }
+
+        [Fact]
+        public void GetAll_ReturnsIenumerableOdTodoItems()
+        {
+            // Arrange
+            var items = new List<TodoItem>
+            {
+                _item
+            };
+            _mockFacade.Setup(mock => mock.GetAll()).Returns(items);
+
+            // Act
+            var result = _controller.GetAll();
+
+            // Assert
+            var enumerable = Assert.IsType<List<TodoItem>>(result);
+            Assert.Equal(items.Count, enumerable.Count());
         }
     }
 }

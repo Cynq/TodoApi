@@ -6,7 +6,7 @@ namespace Todo.Bll.Services
 {
     public class FileMessageService : IMessageService
     {
-        Task IMessageService.Send(string email, string subject, string message)
+        public Task Send(string email, string subject, string message)
         {
             var emailMessage = $"To: {email}\nSubject: {subject}\nMessage: {message}\n\n";
 
