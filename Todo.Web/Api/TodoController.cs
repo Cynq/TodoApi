@@ -65,7 +65,7 @@ namespace Todo.Web.Api
             todo.Name = item.Name;
 
             Facade.Update(todo);
-            return new NoContentResult();
+            return new OkResult();
         }
 
         [HttpDelete("{id}")]
@@ -78,7 +78,7 @@ namespace Todo.Web.Api
             }
 
             Facade.Remove(todo);
-            return new NoContentResult();
+            return new OkResult();
         }
     }
 }

@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Api\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Todo.Web\Todo.Web.csproj" />
   </ItemGroup>
 

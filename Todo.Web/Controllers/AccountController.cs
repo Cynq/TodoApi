@@ -84,19 +84,19 @@ namespace Todo.Web.Controllers
 
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Invalid login");
+                ModelState.AddModelError("InvalidLogin", "Invalid login");
                 return View();
             }
             if (!user.EmailConfirmed)
             {
-                ModelState.AddModelError(string.Empty, "Confirm your email first");
+                ModelState.AddModelError("EmailNotConfirmed", "Confirm your email first");
                 return View();
             }
 
             var passwordSignInResult = await Facade.PasswordSignInAsync(user, password, rememberMe, false);
             if (!passwordSignInResult.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, "Invalid login");
+                ModelState.AddModelError("InvalidLogin", "Invalid login");
                 return View();
             }
 
@@ -132,7 +132,7 @@ namespace Todo.Web.Controllers
 
             if (password != repassword)
             {
-                ModelState.AddModelError(string.Empty, "Passwords do not match");
+                ModelState.AddModelError("PasswordDontMatch", "Passwords do not match");
                 return View();
             }
 
