@@ -140,7 +140,7 @@ namespace Todo.Web.Controllers
             if (!resetPasswordResult.Succeeded)
             {
                 foreach (var error in resetPasswordResult.Errors)
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(error.Code, error.Description);
                 return View();
             }
 

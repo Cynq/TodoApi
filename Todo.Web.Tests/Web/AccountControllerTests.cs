@@ -82,7 +82,7 @@ namespace Todo.Web.Tests.Web
         }
 
         [Fact]
-        public async Task RegisterPost_ReturnsViewWitValidModelState_WhenModelIsValid()
+        public async Task RegisterPost_ReturnsViewWithInvalidModelState_WhenModelIsInvalid()
         {
             // Arrange
             var model = new RegistrationModel
@@ -91,14 +91,24 @@ namespace Todo.Web.Tests.Web
                 PasswordConfirmation = string.Empty,
                 Password = string.Empty,
             };
+            var errors = new[]
+            {
+                new IdentityError
+                {
+                    Code = "errorCode",
+                    Description = "errorDescription"
+                }
+            };
+            var identityResult = IdentityResult.Failed(errors);
             _mockFacade.Setup(facade => facade.CreateUserAsync(It.IsNotNull<IdentityUser>(), It.IsNotNull<string>()))
-                .Returns(Task.FromResult(IdentityResult.Failed()));
+                .Returns(Task.FromResult(identityResult));
 
             // Act
             var result = await _controller.Register(model);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(errors.Count(), viewResult.ViewData.ModelState.Count);
             Assert.Equal(null, viewResult.ViewName);
         }
 
@@ -150,10 +160,8 @@ namespace Todo.Web.Tests.Web
         public async Task VerifyEmail_ShouldReturnContentWithSuccessyfullMsg_WhenEmailConfirmed()
         {
             // Arrange
-            _mockFacade.Setup(facade => facade.FindUserByIdAsync(id))
-                .Returns(Task.FromResult(_usr));
-            _mockFacade.Setup(facade => facade.ConfirmEmailAsync(_usr, token))
-                .Returns(Task.FromResult(IdentityResult.Success));
+            _mockFacade.Setup(facade => facade.FindUserByIdAsync(id)).Returns(Task.FromResult(_usr));
+            _mockFacade.Setup(facade => facade.ConfirmEmailAsync(_usr, token)).Returns(Task.FromResult(IdentityResult.Success));
 
             // Act
             var result = await _controller.VerifyEmail(id, token);
@@ -161,6 +169,31 @@ namespace Todo.Web.Tests.Web
             // Assert
             var contentResult = Assert.IsType<ContentResult>(result);
             Assert.Equal("Email confirmed, you can now log in", contentResult.Content);
+            _mockFacade.VerifyAll();
+        }
+
+        [Fact]
+        public async Task VerifyEmail_ReturnsContentWithErrorMessages_WhenErrorOccur()
+        {
+            // Arrange
+            var errors = new[]
+            {
+                new IdentityError
+                {
+                    Code = "errorCode",
+                    Description = "errorDescription"
+                }
+            };
+            var identityResult = IdentityResult.Failed(errors);
+            _mockFacade.Setup(facade => facade.FindUserByIdAsync(id)).Returns(Task.FromResult(_usr));
+            _mockFacade.Setup(facade => facade.ConfirmEmailAsync(_usr, token)).Returns(Task.FromResult(identityResult));
+
+            // Act
+            var result = await _controller.VerifyEmail(id, token);
+
+            // Assert
+            var contentResult = Assert.IsType<ContentResult>(result);
+            Assert.Equal(identityResult.Errors.Select(error => error.Description).Aggregate((allErrors, error) => allErrors + ", " + error), contentResult.Content);
             _mockFacade.VerifyAll();
         }
 
@@ -307,6 +340,32 @@ namespace Todo.Web.Tests.Web
         public async Task ResetPassword_ReturnsContentWithSuccessFullMessage_WhenResetPassSuccess()
         {
             // Arrange
+            var errors = new[]
+            {
+                new IdentityError
+                {
+                    Code = "errorCode",
+                    Description = "errorDescription"
+                }
+            };
+            var identityResult = IdentityResult.Failed(errors);
+            _mockFacade.Setup(mock => mock.FindUserByIdAsync(id)).Returns(Task.FromResult(_usr));
+            _mockFacade.Setup(mock => mock.ResetPasswordAsync(_usr, token, password)).Returns(Task.FromResult(identityResult));
+
+            // Act
+            var result = await _controller.ResetPassword(id, token, password, repassword);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var errorMessage = GetErrorMessage(viewResult, errors[0].Code);
+            Assert.Equal(errors[0].Description, errorMessage);
+            _mockFacade.VerifyAll();
+        }
+
+        [Fact]
+        public async Task ResetPassword_ReturnsViewWithModelError_WhenResetPasswordFailed()
+        {
+            // Arrange
             _mockFacade.Setup(mock => mock.FindUserByIdAsync(id)).Returns(Task.FromResult(_usr));
             _mockFacade.Setup(mock => mock.ResetPasswordAsync(_usr, token, password)).Returns(Task.FromResult(IdentityResult.Success));
 
@@ -317,6 +376,47 @@ namespace Todo.Web.Tests.Web
             var contentResult = Assert.IsType<ContentResult>(result);
             Assert.Equal("Password updated", contentResult.Content);
             _mockFacade.VerifyAll();
+        }
+
+        [Fact]
+        public async Task LogOut_RunSignOutAsyncAndRedirectToRoot()
+        {
+            // Arrange
+            _mockFacade.Setup(mock => mock.SignOutAsync()).Returns(Task.FromResult(true));
+
+            // Act
+            var result = await _controller.Logout();
+
+            // Assert
+            var redirectResult = Assert.IsType<RedirectResult>(result);
+            Assert.Equal("~/", redirectResult.Url);
+            _mockFacade.Verify(mock => mock.SignOutAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async Task LoginGet_ReturnsView()
+        {
+            // Arrange
+
+            // Act
+            var result = _controller.Login();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(null, viewResult.ViewName);
+        }
+
+        [Fact]
+        public async Task ForgotPasswordGet_ReturnsView()
+        {
+            // Arrange
+
+            // Act
+            var result = _controller.ForgotPassword();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(null, viewResult.ViewName);
         }
     }
 }

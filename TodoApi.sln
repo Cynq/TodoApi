@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Todo.Common", "Todo.Core\Todo.Common.csproj", "{C6568143-6984-4040-8299-536BFF80E487}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingControllersSample", "TestingControllersSample\TestingControllersSample.csproj", "{4D700DA0-567B-48A3-89CC-F8D2D067F4C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingControllersSample.Tests", "TestingControllersSample.Tests\TestingControllersSample.Tests.csproj", "{D20ABF1D-486E-4285-8CEA-E646D627BAAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Common.Tests", "Todo.Common.Tests\Todo.Common.Tests.csproj", "{2F43197D-7250-423E-8DAF-5372A8D92A2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{D20ABF1D-486E-4285-8CEA-E646D627BAAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D20ABF1D-486E-4285-8CEA-E646D627BAAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D20ABF1D-486E-4285-8CEA-E646D627BAAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F43197D-7250-423E-8DAF-5372A8D92A2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F43197D-7250-423E-8DAF-5372A8D92A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F43197D-7250-423E-8DAF-5372A8D92A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F43197D-7250-423E-8DAF-5372A8D92A2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{BBB4F9D9-235E-4755-90D4-32718904DB7F} = {09678720-3602-4CD2-97D2-EEC06126549B}
 		{4D700DA0-567B-48A3-89CC-F8D2D067F4C6} = {AC28DB52-B971-4C6B-B8E8-C8E6286E19C8}
 		{D20ABF1D-486E-4285-8CEA-E646D627BAAD} = {09678720-3602-4CD2-97D2-EEC06126549B}
+		{2F43197D-7250-423E-8DAF-5372A8D92A2B} = {09678720-3602-4CD2-97D2-EEC06126549B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22012C11-1CCD-4E45-A019-084712362D54}
