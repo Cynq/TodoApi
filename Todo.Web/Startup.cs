@@ -9,6 +9,7 @@ using Todo.Bll.Fcd;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Bll.Interfaces.Identity;
 using Todo.Bll.Services;
+using Todo.Common.Models;
 using Todo.Dal.Interfaces;
 using Todo.Dal.Repositories;
 
@@ -67,7 +68,7 @@ namespace Todo.Web
 
         private void ConfigureIdentity(IServiceCollection services)
         {
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<TodoContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<TodoContext>().AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(opt =>
             {
                 opt.Password.RequireDigit = false;

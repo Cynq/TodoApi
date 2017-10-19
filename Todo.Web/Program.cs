@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Todo.Common.Models;
 using Todo.Dal;
 
 namespace Todo.Web
@@ -33,8 +34,8 @@ namespace Todo.Web
                 try
                 {
                     var context = services.GetRequiredService<TodoContext>();
-                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-                    var signInManager = services.GetRequiredService<SignInManager<IdentityUser>>();
+                    var userManager = services.GetRequiredService<UserManager<User>>();
+                    var signInManager = services.GetRequiredService<SignInManager<User>>();
 
                     DbInitializer.Initialize(context, userManager, signInManager, logger);
                 }

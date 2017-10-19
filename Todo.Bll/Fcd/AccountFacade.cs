@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Bll.Interfaces.Identity;
+using Todo.Common.Models;
 using Todo.Dal.Interfaces;
 
 namespace Todo.Bll.Fcd
@@ -10,10 +11,10 @@ namespace Todo.Bll.Fcd
     {
         protected readonly IAccountRepository AccountRepository;
         protected readonly IMessageService MessageService;
-        protected readonly UserManager<IdentityUser> UserManager;
-        protected readonly SignInManager<IdentityUser> SignInManager;
+        protected readonly UserManager<User> UserManager;
+        protected readonly SignInManager<User> SignInManager;
 
-        public AccountFacade(IAccountRepository accountRepository, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IMessageService messageService) : base(accountRepository)
+        public AccountFacade(IAccountRepository accountRepository, UserManager<User> userManager, SignInManager<User> signInManager, IMessageService messageService) : base(accountRepository)
         {
             AccountRepository = accountRepository;
             UserManager = userManager;
@@ -21,7 +22,7 @@ namespace Todo.Bll.Fcd
             MessageService = messageService;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(IdentityUser newUser, string password)
+        public async Task<IdentityResult> CreateUserAsync(User newUser, string password)
         {
             return await UserManager.CreateAsync(newUser, password);
         }
@@ -31,37 +32,37 @@ namespace Todo.Bll.Fcd
             await MessageService.Send(email, "Verify your email", $"Click <a href=\"{confirmationToken}\">here</a> to verify your email");
         }
 
-        public async Task<string> GenerateEmailConfirmationTokenAsync(IdentityUser newUser)
+        public async Task<string> GenerateEmailConfirmationTokenAsync(User newUser)
         {
             return await UserManager.GenerateEmailConfirmationTokenAsync(newUser);
         }
 
-        public async Task<IdentityUser> FindUserByIdAsync(string id)
+        public async Task<User> FindUserByIdAsync(string id)
         {
             return await UserManager.FindByIdAsync(id);
         }
 
-        public async Task<IdentityResult> ConfirmEmailAsync(IdentityUser user, string token)
+        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
         {
             return await UserManager.ConfirmEmailAsync(user, token);
         }
 
-        public async Task<IdentityUser> FindUserByEmailAsync(string email)
+        public async Task<User> FindUserByEmailAsync(string email)
         {
             return await UserManager.FindByEmailAsync(email);
         }
 
-        public async Task<SignInResult> PasswordSignInAsync(IdentityUser user, string password, bool rememberMe, bool b)
+        public async Task<SignInResult> PasswordSignInAsync(User user, string password, bool rememberMe, bool b)
         {
             return await SignInManager.PasswordSignInAsync(user, password, rememberMe, false);
         }
 
-        public async Task<string> GeneratePasswordResetTokenAsync(IdentityUser user)
+        public async Task<string> GeneratePasswordResetTokenAsync(User user)
         {
             return await UserManager.GeneratePasswordResetTokenAsync(user);
         }
 
-        public async Task<IdentityResult> ResetPasswordAsync(IdentityUser user, string token, string password)
+        public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)
         {
             return await UserManager.ResetPasswordAsync(user, token, password);
         }

@@ -21,7 +21,7 @@ namespace Todo.Web.Tests.Web
         private string token = "";
         private string password = "";
         private string repassword = "";
-        private readonly IdentityUser _usr = new IdentityUser();
+        private readonly User _usr = new User();
         private readonly Mock<IUrlHelper> _mockUrlHelper = new Mock<IUrlHelper>();
         private readonly Mock<IAccountFacade> _mockFacade = new Mock<IAccountFacade>();
         private readonly AccountController _controller;
@@ -100,7 +100,7 @@ namespace Todo.Web.Tests.Web
                 }
             };
             var identityResult = IdentityResult.Failed(errors);
-            _mockFacade.Setup(facade => facade.CreateUserAsync(It.IsNotNull<IdentityUser>(), It.IsNotNull<string>()))
+            _mockFacade.Setup(facade => facade.CreateUserAsync(It.IsNotNull<User>(), It.IsNotNull<string>()))
                 .Returns(Task.FromResult(identityResult));
 
             // Act
@@ -122,9 +122,9 @@ namespace Todo.Web.Tests.Web
                 PasswordConfirmation = string.Empty,
                 Password = string.Empty,
             };
-            _mockFacade.Setup(facade => facade.CreateUserAsync(It.IsNotNull<IdentityUser>(), It.Is<string>(fn => fn.Equals(model.Password))))
+            _mockFacade.Setup(facade => facade.CreateUserAsync(It.IsNotNull<User>(), It.Is<string>(fn => fn.Equals(model.Password))))
                 .Returns(Task.FromResult(IdentityResult.Success));
-            _mockFacade.Setup(facade => facade.GenerateEmailConfirmationTokenAsync(It.IsAny<IdentityUser>()))
+            _mockFacade.Setup(facade => facade.GenerateEmailConfirmationTokenAsync(It.IsAny<User>()))
                 .Returns(Task.FromResult(string.Empty));
             _mockFacade.Setup(facade => facade.SendConfirmationEmailAsync(It.Is<string>(fn => fn.Equals(model.Email)), It.IsAny<string>()))
                 .Returns(Task.FromResult(string.Empty));
@@ -149,7 +149,7 @@ namespace Todo.Web.Tests.Web
         public async Task VerifyEmail_ShouldThrowExceotion_WhenUserIsNull()
         {
             // Arrange
-            _mockFacade.Setup(facade => facade.FindUserByIdAsync(id)).Returns(Task.FromResult((IdentityUser)null));
+            _mockFacade.Setup(facade => facade.FindUserByIdAsync(id)).Returns(Task.FromResult((User)null));
 
             // Act / Assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _controller.VerifyEmail(id, token));
@@ -201,7 +201,7 @@ namespace Todo.Web.Tests.Web
         public async Task LoginPost_ShouldReturnInvalidLoginErrorInView_WhenNoUserFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.FindUserByEmailAsync(email)).Returns(Task.FromResult((IdentityUser)null));
+            _mockFacade.Setup(mock => mock.FindUserByEmailAsync(email)).Returns(Task.FromResult((User)null));
 
             // Act
             var result = await _controller.Login(email, password, false);
@@ -270,7 +270,7 @@ namespace Todo.Web.Tests.Web
         public async Task ForgotPasswordPost_ReturnContentWithMessageWithoudSendingEmail_WhenNoUserFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.FindUserByEmailAsync(email)).Returns(Task.FromResult((IdentityUser)null));
+            _mockFacade.Setup(mock => mock.FindUserByEmailAsync(email)).Returns(Task.FromResult((User)null));
 
             // Act
             var result = await _controller.ForgotPassword(email);
@@ -310,7 +310,7 @@ namespace Todo.Web.Tests.Web
         public async Task ResetPassword_ThrowsInvalidOperationException_WhenNoUserFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.FindUserByIdAsync(id)).Returns(Task.FromResult((IdentityUser)null));
+            _mockFacade.Setup(mock => mock.FindUserByIdAsync(id)).Returns(Task.FromResult((User)null));
 
             // Act / Assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _controller.ResetPassword(id, token, password, repassword));

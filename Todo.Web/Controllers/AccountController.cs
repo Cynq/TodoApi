@@ -36,7 +36,7 @@ namespace Todo.Web.Controllers
                 return View();
             }
 
-            var newUser = new IdentityUser
+            var newUser = new User
             {
                 UserName = model.Email,
                 Email = model.Email

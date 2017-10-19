@@ -8,7 +8,7 @@ namespace Todo.Dal
 {
     public class DbInitializer
     {
-        public static async void Initialize(TodoContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger logger)
+        public static void Initialize(TodoContext context, UserManager<User> userManager, SignInManager<User> signInManager, ILogger logger)
         {
             context.Database.EnsureCreated();
 
@@ -17,7 +17,7 @@ namespace Todo.Dal
                 return;
             }
 
-            await CreateAdministrator(userManager, logger);
+            CreateAdministrator(userManager, logger);
 
             var todoItems = new[]
             {
@@ -31,16 +31,16 @@ namespace Todo.Dal
             context.SaveChanges();
         }
 
-        private static async Task CreateAdministrator(UserManager<IdentityUser> userManager, ILogger logger)
+        private static void CreateAdministrator(UserManager<User> userManager, ILogger logger)
         {
-            var newUser = new IdentityUser
+            var newUser = new User
             {
                 UserName = "Administrator",
                 Email = "admin@todo.pl",
                 EmailConfirmed = true
             };
 
-            var userCreationResult = await userManager.CreateAsync(newUser, "tajneHasło1!");
+            var userCreationResult = userManager.CreateAsync(newUser, "tajneHasło1!").Result;
 
             if (!userCreationResult.Succeeded)
             {
