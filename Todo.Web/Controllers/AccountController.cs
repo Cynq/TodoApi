@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
 
@@ -152,6 +154,13 @@ namespace Todo.Web.Controllers
         {
             await Facade.SignOutAsync();
             return Redirect("~/");
+        }
+
+        [Authorize]
+        public IActionResult Manage()
+        {
+            var model = Facade.GetUserVm(UserId);
+            return View();
         }
     }
 }

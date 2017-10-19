@@ -8,11 +8,11 @@ using Todo.Bll.Interfaces.Facades;
 namespace Todo.Web.Api
 {
     [Route("api/[controller]")]
-    public class TodoController : BaseApiController
+    public class TodoApiController : BaseApiController
     {
         public new ITodoFacade Facade { get; set; }
 
-        public TodoController(ITodoFacade facade) : base(facade)
+        public TodoApiController(ITodoFacade facade) : base(facade)
         {
             Facade = facade;
         }
