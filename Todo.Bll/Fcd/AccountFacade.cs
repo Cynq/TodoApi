@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Bll.Interfaces.Identity;
@@ -14,7 +15,7 @@ namespace Todo.Bll.Fcd
         protected readonly UserManager<User> UserManager;
         protected readonly SignInManager<User> SignInManager;
 
-        public AccountFacade(IUnitOfWork unitOfWork, UserManager<User> userManager, SignInManager<User> signInManager, IMessageService messageService) : base(unitOfWork)
+        public AccountFacade(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IMessageService messageService) : base(unitOfWork, mapper)
         {
             UserManager = userManager;
             SignInManager = signInManager;

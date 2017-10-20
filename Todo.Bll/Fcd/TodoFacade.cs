@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
 using Todo.Dal.Interfaces;
@@ -9,7 +10,7 @@ namespace Todo.Bll.Fcd
 {
     public class TodoFacade : BaseFacade, ITodoFacade
     {
-        public TodoFacade(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public TodoFacade(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
         public IEnumerable<TodoItem> GetAll()
         {
