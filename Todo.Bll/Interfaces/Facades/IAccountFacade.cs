@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Todo.Common.Models;
+using Todo.Common.ViewModels;
 
 namespace Todo.Bll.Interfaces.Facades
 {
@@ -16,6 +17,6 @@ namespace Todo.Bll.Interfaces.Facades
         Task<string> GeneratePasswordResetTokenAsync(User user);
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
         Task SignOutAsync();
-        object GetUserVm(string userId);
+        Task <UserViewModel> GetUserVm(string userId);
     }
 }

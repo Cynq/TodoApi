@@ -1,6 +1,9 @@
-﻿namespace Todo.Bll.Interfaces.Facades
+﻿using Todo.Dal.Interfaces;
+
+namespace Todo.Bll.Interfaces.Facades
 {
     public interface IBaseFacade
     {
+        IUnitOfWork UnitOfWork { get; set; }
     }
 }

@@ -1,14 +1,7 @@
-﻿using System.Linq;
-using Todo.Common.Models;
-
-namespace Todo.Dal.Interfaces
+﻿namespace Todo.Dal.Interfaces
 {
-    public interface ITodoRepository : IBaseRepository
+    public interface ITodoRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
-        void Update(TodoItem todo);
-        void Add(TodoItem item);
-        IQueryable<TodoItem> GetAll();
-        void Remove(TodoItem todo);
-        TodoItem GetById(long id);
+
     }
 }

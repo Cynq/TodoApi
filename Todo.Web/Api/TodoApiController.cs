@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Todo.Common.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Todo.Bll.Interfaces.Facades;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,9 +25,9 @@ namespace Todo.Web.Api
         }
 
         [HttpGet("{id}", Name = "GetTodo")]
-        public IActionResult GetById(long id)
+        public async Task<IActionResult> GetById(long id)
         {
-            var item = Facade.GetById(id);
+            var item = await Facade.GetByIdAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -48,14 +49,14 @@ namespace Todo.Web.Api
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] TodoItem item)
+        public async Task<IActionResult> UpdateAsync(long id, [FromBody] TodoItem item)
         {
             if (item == null || item.Id != id)
             {
                 return BadRequest();
             }
 
-            var todo = Facade.GetById(id);
+            var todo = await Facade.GetByIdAsync(id);
             if (todo == null)
             {
                 return NotFound();
@@ -69,9 +70,9 @@ namespace Todo.Web.Api
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public async Task<IActionResult> DeleteAsync(long id)
         {
-            var todo = Facade.GetById(id);
+            var todo = await Facade.GetByIdAsync(id);
             if (todo == null)
             {
                 return NotFound();

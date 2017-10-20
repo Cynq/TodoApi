@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
 using Todo.Dal.Interfaces;
@@ -8,36 +9,34 @@ namespace Todo.Bll.Fcd
 {
     public class TodoFacade : BaseFacade, ITodoFacade
     {
-        public new ITodoRepository Repository { get; }
-
-        public TodoFacade(ITodoRepository repository) : base(repository)
-        {
-            Repository = repository;
-        }
+        public TodoFacade(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
         public IEnumerable<TodoItem> GetAll()
         {
-            return Repository.GetAll().ToList();
+            return UnitOfWork.TodoRepository.Get().ToList();
         }
 
-        public TodoItem GetById(long id)
+        public async Task<TodoItem> GetByIdAsync(long id)
         {
-            return Repository.GetById(id);
+            return await UnitOfWork.TodoRepository.GetById(id);
         }
 
         public void Add(TodoItem item)
         {
-            Repository.Add(item);
+            UnitOfWork.TodoRepository.Add(item);
+            UnitOfWork.SaveChanges();
         }
 
         public void Update(TodoItem todo)
         {
-            Repository.Update(todo);
+            UnitOfWork.TodoRepository.Update(todo);
+            UnitOfWork.SaveChanges();
         }
 
         public void Remove(TodoItem todo)
         {
-            Repository.Remove(todo);
+            UnitOfWork.TodoRepository.Delete(todo);
+            UnitOfWork.SaveChanges();
         }
     }
 }

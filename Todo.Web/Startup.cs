@@ -58,12 +58,12 @@ namespace Todo.Web
         private static void RegisterMyServices(IServiceCollection services)
         {
             services.AddScoped<IBaseFacade, BaseFacade>();
-            services.AddScoped<IBaseRepository, BaseRepository>();
             services.AddScoped<ITodoFacade, TodoFacade>();
-            services.AddScoped<ITodoRepository, TodoRepository>();
+            services.AddScoped(typeof(ITodoRepository<TodoItem>), typeof(TodoRepository));
             services.AddTransient<IMessageService, FileMessageService>();
             services.AddTransient<IAccountFacade, AccountFacade>();
-            services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient(typeof(IAccountRepository<User>), typeof(AccountRepository));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         private void ConfigureIdentity(IServiceCollection services)

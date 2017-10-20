@@ -3,20 +3,19 @@ using Microsoft.AspNetCore.Identity;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Bll.Interfaces.Identity;
 using Todo.Common.Models;
+using Todo.Common.ViewModels;
 using Todo.Dal.Interfaces;
 
 namespace Todo.Bll.Fcd
 {
     public class AccountFacade : BaseFacade, IAccountFacade
     {
-        protected readonly IAccountRepository AccountRepository;
         protected readonly IMessageService MessageService;
         protected readonly UserManager<User> UserManager;
         protected readonly SignInManager<User> SignInManager;
 
-        public AccountFacade(IAccountRepository accountRepository, UserManager<User> userManager, SignInManager<User> signInManager, IMessageService messageService) : base(accountRepository)
+        public AccountFacade(IUnitOfWork unitOfWork, UserManager<User> userManager, SignInManager<User> signInManager, IMessageService messageService) : base(unitOfWork)
         {
-            AccountRepository = accountRepository;
             UserManager = userManager;
             SignInManager = signInManager;
             MessageService = messageService;
@@ -70,6 +69,15 @@ namespace Todo.Bll.Fcd
         public async Task SignOutAsync()
         {
             await SignInManager.SignOutAsync();
+        }
+
+        public async Task<UserViewModel> GetUserVm(string userId)
+        {
+            var user = await UnitOfWork.AccountRepository.GetById(userId);
+            return new UserViewModel
+            {
+                Email = user.Email
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Todo.Bll.Interfaces.Facades;
@@ -13,35 +14,35 @@ namespace Todo.Web.Tests.Api
     {
         private readonly long _id = 1;
         private readonly Mock<ITodoFacade> _mockFacade = new Mock<ITodoFacade>();
-        private readonly TodoController _controller;
+        private readonly TodoApiController _controller;
         private readonly TodoItem _item = new TodoItem();
 
         public TodoControllerTests()
         {
-            _controller = new TodoController(_mockFacade.Object);
+            _controller = new TodoApiController(_mockFacade.Object);
         }
 
         [Fact]
-        public void GetById_ReturnsNotForundResult_WhenUserNotFound()
+        public async Task GetById_ReturnsNotForundResult_WhenUserNotFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.GetById(_id)).Returns((TodoItem)null);
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItem)null));
 
             // Act
-            var result = _controller.GetById(_id);
+            var result = await _controller.GetById(_id);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
-        public void GetById_ReturnsObjectResultWithObject_WhenObjectFound()
+        public async Task GetById_ReturnsObjectResultWithObject_WhenObjectFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.GetById(_id)).Returns(_item);
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult(_item));
 
             // Act
-            var result = _controller.GetById(_id);
+            var result = await _controller.GetById(_id);
 
             // Assert
             var objectResult = Assert.IsType<ObjectResult>(result);
@@ -78,38 +79,38 @@ namespace Todo.Web.Tests.Api
         }
 
         [Fact]
-        public void UpdatePut_ReturnsBadRequestResult_WhenPostedItemIsNull()
+        public async Task UpdatePut_ReturnsBadRequestResult_WhenPostedItemIsNull()
         {
             // Arrange
             
             // Act
-            var result = _controller.Update(_id, null);
+            var result = await _controller.UpdateAsync(_id, null);
 
             // Assert
             Assert.IsType<BadRequestResult>(result);
         }
 
         [Fact]
-        public void UpdatePut_ReturnsBadRequestResult_WhenIdsNotMatch()
+        public async Task UpdatePut_ReturnsBadRequestResult_WhenIdsNotMatch()
         {
             // Arrange
 
             // Act
-            var result = _controller.Update(_id, _item);
+            var result = await _controller.UpdateAsync(_id, _item);
 
             // Assert
             Assert.IsType<BadRequestResult>(result);
         }
 
         [Fact]
-        public void UpdatePut_ReturnsNotFoundResult_WhenNoItemInRepositoryWithPostedId()
+        public async Task UpdatePut_ReturnsNotFoundResult_WhenNoItemInRepositoryWithPostedId()
         {
             // Arrange
             _item.Id = _id;
-            _mockFacade.Setup(mock => mock.GetById(_id)).Returns((TodoItem) null);
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItem) null));
 
             // Act
-            var result = _controller.Update(_id, _item);
+            var result = await _controller.UpdateAsync(_id, _item);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -117,14 +118,14 @@ namespace Todo.Web.Tests.Api
         }
 
         [Fact]
-        public void UpdatePut_ReturnsOkResult_WhenUpdateSuccesfull()
+        public async Task UpdatePut_ReturnsOkResult_WhenUpdateSuccesfull()
         {
             // Arrange
             _item.Id = _id;
-            _mockFacade.Setup(mock => mock.GetById(_id)).Returns(_item);
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult(_item));
 
             // Act
-            var result = _controller.Update(_id, _item);
+            var result = await _controller.UpdateAsync(_id, _item);
 
             // Assert
             Assert.IsType<OkResult>(result);
@@ -132,13 +133,13 @@ namespace Todo.Web.Tests.Api
         }
 
         [Fact]
-        public void Delete_ReturnsNotFoundResult_WhenItemNotFound()
+        public async Task Delete_ReturnsNotFoundResult_WhenItemNotFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.GetById(_id)).Returns((TodoItem)null);
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItem)null));
 
             // Act
-            var result = _controller.Delete(_id);
+            var result = await _controller.DeleteAsync(_id);
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -146,14 +147,14 @@ namespace Todo.Web.Tests.Api
         }
 
         [Fact]
-        public void Delete_ReturnsOkResult_WhenItemNotFound()
+        public async Task Delete_ReturnsOkResult_WhenItemNotFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.GetById(_id)).Returns(_item);
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult(_item));
             _mockFacade.Setup(mock => mock.Remove(_item));
 
             // Act
-            var result = _controller.Delete(_id);
+            var result = await _controller.DeleteAsync(_id);
 
             // Assert
             Assert.IsType<OkResult>(result);

@@ -5,11 +5,11 @@ namespace Todo.Bll.Fcd
 {
     public class BaseFacade : IBaseFacade
     {
-        public IBaseRepository Repository { get; }
-
-        public BaseFacade(IBaseRepository repository)
+        public BaseFacade(IUnitOfWork unitOfWork)
         {
-            Repository = repository;
+            UnitOfWork = unitOfWork;
         }
+
+        public IUnitOfWork UnitOfWork { get; set; }
     }
 }

@@ -394,7 +394,7 @@ namespace Todo.Web.Tests.Web
         }
 
         [Fact]
-        public async Task LoginGet_ReturnsView()
+        public void LoginGet_ReturnsView()
         {
             // Arrange
 
@@ -407,7 +407,7 @@ namespace Todo.Web.Tests.Web
         }
 
         [Fact]
-        public async Task ForgotPasswordGet_ReturnsView()
+        public void ForgotPasswordGet_ReturnsView()
         {
             // Arrange
 
