@@ -5,18 +5,18 @@ using Todo.Bll.Interfaces.Facades;
 namespace Todo.Web.Controllers
 {
     [Authorize]
-    public class TodoController : BaseController
+    public class CardsController : BaseController
     {
         public new ITodoFacade Facade { get; }
 
-        public TodoController(ITodoFacade facade) : base(facade)
+        public CardsController(ITodoFacade facade) : base(facade)
         {
             Facade = facade;
         }
 
         public IActionResult Index()
         {
-            var model = Facade.GetAll();
+            var model = Facade.UnitOfWork.Get();
             return View(model);
         }
     }

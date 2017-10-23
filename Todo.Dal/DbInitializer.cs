@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Todo.Common.Models;
@@ -19,15 +18,23 @@ namespace Todo.Dal
 
             CreateAdministrator(userManager, logger);
 
-            var todoItems = new[]
+            var card = new TodoCard
             {
-                new TodoItem
+                Name = "Testowa karta 1",
+                Tasks = new[]
                 {
-                    Name = "Testowe zadanie"
+                    new TodoItem
+                    {
+                        Name = "Testowe zadanie 1"
+                    },
+                    new TodoItem
+                    {
+                        Name = "Testowe zadanie 2"
+                    }
                 }
             };
 
-            context.TodoItems.AddRange(todoItems);
+            context.Cards.Add(card);
             context.SaveChanges();
         }
 

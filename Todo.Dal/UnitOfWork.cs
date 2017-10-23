@@ -17,6 +17,7 @@ namespace Todo.Dal
         public TodoContext Context { get; set; }
         public ITodoRepository<TodoItem> TodoRepository { get; set; }
         public IAccountRepository<User> AccountRepository { get; set; }
+        public IAccountRepository<TodoCard> CardRepository { get; set; }
 
         #endregion
 
