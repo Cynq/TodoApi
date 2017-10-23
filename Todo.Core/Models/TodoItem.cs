@@ -11,6 +11,6 @@ namespace Todo.Common.Models
         public string UserCreateId { get; set; }
         public User UserCreate { get; set; }
         public ICollection<UserTodoItem> TodoItemUsersAuthorized { get; set; }
-        public TodoCard Card { get; set; }
+        public Card Card { get; set; }
     }
 }

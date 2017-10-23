@@ -18,7 +18,7 @@ namespace Todo.Dal
 
             CreateAdministrator(userManager, logger);
 
-            var card = new TodoCard
+            var card = new Card
             {
                 Name = "Testowa karta 1",
                 Tasks = new[]

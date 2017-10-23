@@ -5,11 +5,15 @@ namespace Todo.Dal
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public UnitOfWork(TodoContext context, ITodoRepository<TodoItem> todoRepository, IAccountRepository<User> accountRepository)
+        public UnitOfWork(TodoContext context,
+            ITodoRepository<TodoItem> todoRepository,
+            IAccountRepository<User> accountRepository,
+            ICardRepository<Card> cardRepository)
         {
             Context = context;
             TodoRepository = todoRepository;
             AccountRepository = accountRepository;
+            CardRepository = cardRepository;
         }
 
         #region Repositories
@@ -17,7 +21,7 @@ namespace Todo.Dal
         public TodoContext Context { get; set; }
         public ITodoRepository<TodoItem> TodoRepository { get; set; }
         public IAccountRepository<User> AccountRepository { get; set; }
-        public IAccountRepository<TodoCard> CardRepository { get; set; }
+        public ICardRepository<Card> CardRepository { get; set; }
 
         #endregion
 

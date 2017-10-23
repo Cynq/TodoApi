@@ -12,8 +12,8 @@ using Todo.Dal;
 namespace Todo.Dal.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20171023132652_AddedCards")]
-    partial class AddedCards
+    [Migration("20171023144836_ChangedCardName")]
+    partial class ChangedCardName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,7 +188,7 @@ namespace Todo.Dal.Migrations
 
             modelBuilder.Entity("Todo.Common.Models.Card", b =>
                 {
-                    b.Property<long>("TodoCardId")
+                    b.Property<long>("CardId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateTime");
@@ -203,7 +203,7 @@ namespace Todo.Dal.Migrations
 
                     b.Property<int>("OrderNumber");
 
-                    b.HasKey("TodoCardId");
+                    b.HasKey("CardId");
 
                     b.HasIndex("CreateUserId");
 
@@ -217,7 +217,7 @@ namespace Todo.Dal.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long?>("CardTodoCardId");
+                    b.Property<long?>("CardId");
 
                     b.Property<bool>("IsComplete");
 
@@ -227,7 +227,7 @@ namespace Todo.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CardTodoCardId");
+                    b.HasIndex("CardId");
 
                     b.HasIndex("UserCreateId");
 
@@ -320,7 +320,7 @@ namespace Todo.Dal.Migrations
                 {
                     b.HasOne("Todo.Common.Models.Card", "Card")
                         .WithMany("Tasks")
-                        .HasForeignKey("CardTodoCardId");
+                        .HasForeignKey("CardId");
 
                     b.HasOne("Todo.Common.Models.User", "UserCreate")
                         .WithMany()

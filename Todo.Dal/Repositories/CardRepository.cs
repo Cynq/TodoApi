@@ -3,7 +3,7 @@ using Todo.Dal.Interfaces;
 
 namespace Todo.Dal.Repositories
 {
-    public class CardRepository : BaseRepository<TodoCard>, ICardRepository<TodoCard>
+    public class CardRepository : BaseRepository<Card>, ICardRepository<Card>
     {
         public CardRepository(TodoContext context) : base(context)
         {

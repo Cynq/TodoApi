@@ -185,9 +185,9 @@ namespace Todo.Dal.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Todo.Common.Models.TodoCard", b =>
+            modelBuilder.Entity("Todo.Common.Models.Card", b =>
                 {
-                    b.Property<long>("TodoCardId")
+                    b.Property<long>("CardId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateTime");
@@ -202,7 +202,7 @@ namespace Todo.Dal.Migrations
 
                     b.Property<int>("OrderNumber");
 
-                    b.HasKey("TodoCardId");
+                    b.HasKey("CardId");
 
                     b.HasIndex("CreateUserId");
 
@@ -216,7 +216,7 @@ namespace Todo.Dal.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long?>("CardTodoCardId");
+                    b.Property<long?>("CardId");
 
                     b.Property<bool>("IsComplete");
 
@@ -226,7 +226,7 @@ namespace Todo.Dal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CardTodoCardId");
+                    b.HasIndex("CardId");
 
                     b.HasIndex("UserCreateId");
 
@@ -304,7 +304,7 @@ namespace Todo.Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Todo.Common.Models.TodoCard", b =>
+            modelBuilder.Entity("Todo.Common.Models.Card", b =>
                 {
                     b.HasOne("Todo.Common.Models.User", "CreateUser")
                         .WithMany()
@@ -317,9 +317,9 @@ namespace Todo.Dal.Migrations
 
             modelBuilder.Entity("Todo.Common.Models.TodoItem", b =>
                 {
-                    b.HasOne("Todo.Common.Models.TodoCard", "Card")
+                    b.HasOne("Todo.Common.Models.Card", "Card")
                         .WithMany("Tasks")
-                        .HasForeignKey("CardTodoCardId");
+                        .HasForeignKey("CardId");
 
                     b.HasOne("Todo.Common.Models.User", "UserCreate")
                         .WithMany()

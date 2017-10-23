@@ -7,16 +7,16 @@ namespace Todo.Web.Controllers
     [Authorize]
     public class CardsController : BaseController
     {
-        public new ITodoFacade Facade { get; }
+        public new ICardFacade Facade { get; }
 
-        public CardsController(ITodoFacade facade) : base(facade)
+        public CardsController(ICardFacade facade) : base(facade)
         {
             Facade = facade;
         }
 
         public IActionResult Index()
         {
-            var model = Facade.UnitOfWork.Get();
+            var model = Facade.Get();
             return View(model);
         }
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Todo.Common.Models
 {
-    public class TodoCard
+    public class Card
     {
-        public long TodoCardId { get; set; }
+        public long CardId { get; set; }
 
         public string Name { get; set; }
         public int OrderNumber { get; set; }

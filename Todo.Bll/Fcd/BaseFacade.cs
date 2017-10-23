@@ -23,8 +23,8 @@ namespace Todo.Bll.Fcd
             }
         }
         private string _userId;
-        
-        public BaseFacade(IUnitOfWork unitOfWork, IMapper mapper)
+
+        protected BaseFacade(IUnitOfWork unitOfWork, IMapper mapper)
         {
             UnitOfWork = unitOfWork;
             Mapper = mapper;

@@ -13,6 +13,6 @@ namespace Todo.Dal.Interfaces
         TodoContext Context { get; set; }
         ITodoRepository<TodoItem> TodoRepository { get; set; }
         IAccountRepository<User> AccountRepository { get; set; }
-        IAccountRepository<TodoCard> CardRepository { get; set; }
+        ICardRepository<Card> CardRepository { get; set; }
     }
 }

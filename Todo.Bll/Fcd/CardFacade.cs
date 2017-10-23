@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
@@ -14,6 +10,11 @@ namespace Todo.Bll.Fcd
     {
         public CardFacade(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
+        }
+
+        public IEnumerable<Card> Get()
+        {
+            return UnitOfWork.CardRepository.Get();
         }
     }
 }

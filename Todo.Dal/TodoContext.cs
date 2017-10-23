@@ -14,13 +14,13 @@ namespace Todo.Dal
         public DbSet<TodoItem> TodoItems { get; set; }
         public new DbSet<User> Users { get; set; }
         public DbSet<UserTodoItem> UserTodoItems { get; set; }
-        public DbSet<TodoCard> Cards { get; set; }
+        public DbSet<Card> Cards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TodoItem>().ToTable("TodoItem");
             modelBuilder.Entity<UserTodoItem>().ToTable("UserTodoItem");
-            modelBuilder.Entity<TodoCard>().ToTable("Card");
+            modelBuilder.Entity<Card>().ToTable("Card");
 
             modelBuilder.Entity<UserTodoItem>()
                 .HasKey(x => new { x.TodoItemId, x.UserId });
