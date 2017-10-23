@@ -10,6 +10,7 @@ namespace Todo.Common.Models
     {
         public string UserId { get; set; }
         public User User { get; set; }
+
         public long TodoItemId { get; set; }
         public TodoItem TodoItem { get; set; }
     }
