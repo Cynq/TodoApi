@@ -1,15 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Console.Internal;
+using Todo.Bll.Interfaces.Facades;
 
 namespace Todo.Web.Controllers
 {
     [Authorize]
-    public class TodoController : Controller
+    public class TodoController : BaseController
     {
+        public new ITodoFacade Facade { get; }
+
+        public TodoController(ITodoFacade facade) : base(facade)
+        {
+            Facade = facade;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var model = Facade.GetAll();
+            return View(model);
         }
     }
 }

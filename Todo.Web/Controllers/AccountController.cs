@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
 
@@ -12,9 +10,9 @@ namespace Todo.Web.Controllers
 {
     public class AccountController : BaseController
     {
-        public IAccountFacade Facade { get; }
+        public new IAccountFacade Facade { get; }
 
-        public AccountController(IAccountFacade facade)
+        public AccountController(IAccountFacade facade) : base(facade)
         {
             Facade = facade;
         }
@@ -157,10 +155,10 @@ namespace Todo.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult Manage()
+        public async Task<IActionResult> Manage()
         {
-            var model = Facade.GetUserVm(UserId);
-            return View();
+            var model = await Facade.GetUserVm(UserId);
+            return View(model);
         }
     }
 }

@@ -74,11 +74,8 @@ namespace Todo.Bll.Fcd
 
         public async Task<UserViewModel> GetUserVm(string userId)
         {
-            var user = await UnitOfWork.AccountRepository.GetById(userId);
-            return new UserViewModel
-            {
-                Email = user.Email
-            };
+            var user = await GetCurrentUser();
+            return Mapper.Map<User, UserViewModel>(user);
         }
     }
 }

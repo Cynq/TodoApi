@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Todo.Bll.Interfaces.Facades;
 using Todo.Web.Controllers;
 using Todo.Web.Models;
 using Xunit;
@@ -8,7 +10,13 @@ namespace Todo.Web.Tests.Web
 {
     public class HomeControllerTests
     {
-        private readonly HomeController _controller = new HomeController();
+        private readonly HomeController _controller;
+
+        public HomeControllerTests()
+        {
+            var mock = new Mock<IBaseFacade>();
+            _controller = new HomeController(mock.Object);
+        }
 
         [Fact]
         public void Index_ReturnsViewResult()

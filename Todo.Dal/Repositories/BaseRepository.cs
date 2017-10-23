@@ -16,9 +16,7 @@ namespace Todo.Dal.Repositories
         {
             Context = context;
         }
-
-        public virtual DbSet<TEntity> DbSet { get; set; }
-
+        
         public virtual Task<TEntity> GetById(object id) => Context.FindAsync<TEntity>(id);
 
         public virtual IEnumerable<TEntity> Get(
@@ -26,7 +24,7 @@ namespace Todo.Dal.Repositories
             Func<IQueryable<TEntity>, 
             IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
-            IQueryable<TEntity> query = DbSet;
+            IQueryable<TEntity> query = Context.Set<TEntity>();
 
             if (filter != null)
             {
