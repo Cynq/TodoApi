@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Todo.Bll.Interfaces.Facades;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Todo.Web.Api
 {
     [Route("api/[controller]")]
@@ -18,12 +16,21 @@ namespace Todo.Web.Api
             Facade = facade;
         }
 
+        /// <summary>
+        /// Returns all todoitem objects
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<TodoItem> GetAll()
         {
             return Facade.GetAll();
         }
 
+        /// <summary>
+        /// Returns specific todoitem
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = "GetTodo")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -35,6 +42,11 @@ namespace Todo.Web.Api
             return new ObjectResult(item);
         }
 
+        /// <summary>
+        /// Creates posted todoitem
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Create([FromBody] TodoItem item)
         {
@@ -48,6 +60,12 @@ namespace Todo.Web.Api
             return CreatedAtRoute("GetTodo", new { id = item.Id }, item);
         }
 
+        /// <summary>
+        /// Updates todoitem data
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(long id, [FromBody] TodoItem item)
         {
@@ -69,6 +87,11 @@ namespace Todo.Web.Api
             return new OkResult();
         }
 
+        /// <summary>
+        /// Deletes an Todoitem object from db
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(long id)
         {

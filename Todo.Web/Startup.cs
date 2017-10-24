@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.IO;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -6,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Todo.Dal;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.PlatformAbstractions;
+using Swashbuckle.AspNetCore.Swagger;
 using Todo.Bll.Fcd;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Bll.Interfaces.Identity;
@@ -33,6 +36,20 @@ namespace Todo.Web
             RegisterMyServices(services);
             services.AddAutoMapper();
             services.AddMvc();
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1", new Info
+                {
+                    Title = "Todo API",
+                    Version = "v1",
+                    Description = "A simple example ASP.NET Core Web API",
+                    Contact = new Contact { Name = "Marcin Urban", Email = "marcinn.urban@gmail.com" }
+                });
+                // Set the comments path for the Swagger JSON and UI.
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath, "Todo.Web.xml");
+                opt.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +64,13 @@ namespace Todo.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(opt =>
+            {
+                opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API V1");
+            });
             app.UseAuthentication();
             app.UseStaticFiles();
 

@@ -1,16 +1,11 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Todo.Bll.Interfaces.Facades;
 using Todo.Web.Models;
 
 namespace Todo.Web.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
-        public HomeController(IBaseFacade facade) : base(facade)
-        {
-        }
-
         public IActionResult Index()
         {
             return View();
