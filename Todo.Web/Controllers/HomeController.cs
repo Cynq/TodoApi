@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Todo.Web.Models;
+using Todo.Common.ViewModels;
 
 namespace Todo.Web.Controllers
 {
@@ -24,15 +25,41 @@ namespace Todo.Web.Controllers
 
             return View();
         }
-
+        
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var model = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+            };
+            // Get the details of the exception that occurred
+            var exceptionFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            if (exceptionFeature != null)
+            {
+                // Get which route the exception occurred at
+                model.Path = exceptionFeature.Path;
+
+                // Get the exception that occurred
+                model.Exception = exceptionFeature.Error;
+            }
+
+            return View(model);
         }
 
         public IActionResult Logins()
         {
             return View();
+        }
+
+        public IActionResult Info()
+        {
+            var model = new RedirectInfoViewModel
+            {
+                StatusCode = HttpContext.Response.StatusCode
+            };
+
+            return View(model);
         }
     }
 }

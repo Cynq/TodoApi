@@ -15,12 +15,15 @@ namespace Todo.Dal
         public new DbSet<User> Users { get; set; }
         public DbSet<UserTodoItem> UserTodoItems { get; set; }
         public DbSet<Card> Cards { get; set; }
+        public DbSet<RequestResponseLog> Logs{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TodoItem>().ToTable("TodoItem");
             modelBuilder.Entity<UserTodoItem>().ToTable("UserTodoItem");
             modelBuilder.Entity<Card>().ToTable("Card");
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<RequestResponseLog>().ToTable("Log");
 
             modelBuilder.Entity<UserTodoItem>()
                 .HasKey(x => new { x.TodoItemId, x.UserId });
@@ -32,7 +35,6 @@ namespace Todo.Dal
             modelBuilder.Entity<UserTodoItem>()
                 .HasOne(x => x.TodoItem)
                 .WithMany(x => x.TodoItemUsersAuthorized);
-
 
             base.OnModelCreating(modelBuilder);
         }

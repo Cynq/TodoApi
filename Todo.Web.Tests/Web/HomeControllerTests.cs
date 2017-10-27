@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Todo.Common.ViewModels;
 using Todo.Web.Controllers;
-using Todo.Web.Models;
 using Xunit;
 
 namespace Todo.Web.Tests.Web

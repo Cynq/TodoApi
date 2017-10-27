@@ -3,13 +3,14 @@ using Todo.Common.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Todo.Bll.Interfaces.Facades;
+using Todo.Common.ViewModels;
 
 namespace Todo.Web.Api
 {
     [Route("api/[controller]")]
     public class TodoApiController : BaseApiController
     {
-        public new ITodoFacade Facade { get; set; }
+        private new ITodoFacade Facade { get; }
 
         public TodoApiController(ITodoFacade facade) : base(facade)
         {
@@ -21,7 +22,7 @@ namespace Todo.Web.Api
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<TodoItem> GetAll()
+        public IEnumerable<TodoItemViewModel> GetAll()
         {
             return Facade.GetAll();
         }
@@ -48,7 +49,7 @@ namespace Todo.Web.Api
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Create([FromBody] TodoItem item)
+        public IActionResult Create([FromBody] TodoItemViewModel item)
         {
             if (item == null)
             {
@@ -67,7 +68,7 @@ namespace Todo.Web.Api
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(long id, [FromBody] TodoItem item)
+        public async Task<IActionResult> UpdateAsync(long id, [FromBody] TodoItemViewModel item)
         {
             if (item == null || item.Id != id)
             {
@@ -75,15 +76,13 @@ namespace Todo.Web.Api
             }
 
             var todo = await Facade.GetByIdAsync(id);
+
             if (todo == null)
             {
                 return NotFound();
             }
 
-            todo.IsComplete = item.IsComplete;
-            todo.Name = item.Name;
-
-            Facade.Update(todo);
+            Facade.Update(item);
             return new OkResult();
         }
 

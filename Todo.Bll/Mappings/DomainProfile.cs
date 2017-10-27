@@ -10,6 +10,9 @@ namespace Todo.Bll.Mappings
         {
             CreateMap<User, UserViewModel>();
             CreateMap<UserViewModel, User>();
+
+            CreateMap<TodoItem, TodoItemViewModel>();
+            CreateMap<TodoItemViewModel, TodoItem>();
         }
     }
 }

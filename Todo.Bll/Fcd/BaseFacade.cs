@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using System.Threading.Tasks;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
 using Todo.Dal.Interfaces;

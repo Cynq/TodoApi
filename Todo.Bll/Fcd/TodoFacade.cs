@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
+using Todo.Common.ViewModels;
 using Todo.Dal.Interfaces;
 
 namespace Todo.Bll.Fcd
@@ -12,31 +13,32 @@ namespace Todo.Bll.Fcd
     {
         public TodoFacade(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
-        public IEnumerable<TodoItem> GetAll()
+        public IEnumerable<TodoItemViewModel> GetAll()
         {
-            return UnitOfWork.TodoRepository.Get().ToList();
+            return Mapper.Map<IEnumerable<TodoItem>, IEnumerable<TodoItemViewModel>>(UnitOfWork.TodoRepository.Get().ToList());
         }
 
-        public async Task<TodoItem> GetByIdAsync(long id)
+        public async Task<TodoItemViewModel> GetByIdAsync(long id)
         {
-            return await UnitOfWork.TodoRepository.GetById(id);
+            return Mapper.Map<TodoItem, TodoItemViewModel>(await UnitOfWork.TodoRepository.GetById(id));
         }
 
-        public void Add(TodoItem item)
+        public void Add(TodoItemViewModel item)
         {
-            UnitOfWork.TodoRepository.Add(item);
+            UnitOfWork.TodoRepository.Add(Mapper.Map<TodoItemViewModel, TodoItem>(item));
             UnitOfWork.SaveChanges();
         }
 
-        public void Update(TodoItem todo)
+        public async Task Update(TodoItemViewModel model)
         {
-            UnitOfWork.TodoRepository.Update(todo);
+            var todo = await UnitOfWork.TodoRepository.GetById(model.Id);
+            UnitOfWork.TodoRepository.Update(Mapper.Map(model, todo));
             UnitOfWork.SaveChanges();
         }
 
-        public void Remove(TodoItem todo)
+        public void Remove(TodoItemViewModel todo)
         {
-            UnitOfWork.TodoRepository.Delete(todo);
+            UnitOfWork.TodoRepository.Delete(Mapper.Map<TodoItemViewModel, TodoItem>(todo));          
             UnitOfWork.SaveChanges();
         }
     }

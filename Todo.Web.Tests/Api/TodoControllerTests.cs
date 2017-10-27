@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Todo.Bll.Interfaces.Facades;
 using Todo.Common.Models;
+using Todo.Common.ViewModels;
 using Todo.Web.Api;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace Todo.Web.Tests.Api
         private readonly long _id = 1;
         private readonly Mock<ITodoFacade> _mockFacade = new Mock<ITodoFacade>();
         private readonly TodoApiController _controller;
-        private readonly TodoItem _item = new TodoItem();
+        private readonly TodoItemViewModel _item = new TodoItemViewModel();
 
         public TodoControllerTests()
         {
@@ -26,7 +27,7 @@ namespace Todo.Web.Tests.Api
         public async Task GetById_ReturnsNotForundResult_WhenUserNotFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItem)null));
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItemViewModel)null));
 
             // Act
             var result = await _controller.GetById(_id);
@@ -107,7 +108,7 @@ namespace Todo.Web.Tests.Api
         {
             // Arrange
             _item.Id = _id;
-            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItem) null));
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItemViewModel) null));
 
             // Act
             var result = await _controller.UpdateAsync(_id, _item);
@@ -136,7 +137,7 @@ namespace Todo.Web.Tests.Api
         public async Task Delete_ReturnsNotFoundResult_WhenItemNotFound()
         {
             // Arrange
-            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItem)null));
+            _mockFacade.Setup(mock => mock.GetByIdAsync(_id)).Returns(Task.FromResult((TodoItemViewModel)null));
 
             // Act
             var result = await _controller.DeleteAsync(_id);
@@ -165,7 +166,7 @@ namespace Todo.Web.Tests.Api
         public void GetAll_ReturnsIenumerableOdTodoItems()
         {
             // Arrange
-            var items = new List<TodoItem>
+            var items = new List<TodoItemViewModel>
             {
                 _item
             };
@@ -175,7 +176,7 @@ namespace Todo.Web.Tests.Api
             var result = _controller.GetAll();
 
             // Assert
-            var enumerable = Assert.IsType<List<TodoItem>>(result);
+            var enumerable = Assert.IsType<List<TodoItemViewModel>>(result);
             Assert.Equal(items.Count, enumerable.Count());
         }
     }
